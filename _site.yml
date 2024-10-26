@@ -13,4 +13,4 @@ navbar:
       href: http://github.com/<pradeetim>/
 output:
   html_document:
-    theme: cerulean
+    theme: yeti
