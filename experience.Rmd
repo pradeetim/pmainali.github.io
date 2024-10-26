@@ -38,8 +38,7 @@ output:
 
 Columbia University, Mailman School of Public Health 
 
-- Led weekly lab sessions with ~20 students to review quantitative epidemiology/biostatistics topics covered during 
-Quant lecture and practice example problems. 
+- Led weekly lab sessions with ~20 students to review quantitative epidemiology/biostatistics topics covered during Quant lecture and practice example problems. 
 - Held weekly office hours and provided additional support outside of formal hours. 
 - Assisted in piloting homework, midterms, and final, and as point TA for live lectures with 200+ students. 
 
@@ -50,11 +49,9 @@ Quant lecture and practice example problems.
 
 Department of Medicine-Infectious Diseases of New Jersey Medical Science. 
 
-- Worked on quality assurance of collected data (clinical, laboratory, demographic) and assisted with routine data 
-management tasks for data transmitted from international sites.  
+- Worked on quality assurance of collected data (clinical, laboratory, demographic) and assisted with routine data management tasks for data transmitted from international sites.  
 - Created SAS codes (standardized and specific) to clean and merge datasets with over 10k observations. 
-- Regularly updated Tableau dashboards for multiple studies along with the SAS codes for its datasets. Assisted 
-data managers with their Tableau tasks. 
+- Regularly updated Tableau dashboards for multiple studies along with the SAS codes for its datasets. Assisted data managers with their Tableau tasks. 
 
 **Summer Public Health Scholars Program (SPHSP)**, New York, NY- *Student Employee/TA*
 
@@ -62,8 +59,7 @@ data managers with their Tableau tasks.
 
 Columbia University, Mailman School of Public Health 
 
-- Assisted with Intro to Epidemiology class alongside Dr. Dana Palmer and taught a TA-led class session on the 
-intersection of Art and Public Health.  
+- Assisted with Intro to Epidemiology class alongside Dr. Dana Palmer and taught a TA-led class session on the intersection of Art and Public Health.  
 - Offered program participants support in brainstorming, data analysis, and poster stages of their research projects. 
 
 
@@ -73,8 +69,7 @@ intersection of Art and Public Health.
 
 Interned with the Southern Plains Tribal Health Board under the THESIS program. 
 
-- Conducted a literature review exploring disparities in breastfeeding in Native communities in preparation for the 
-2023 Lewis Ferguson CDC showcase. 
+- Conducted a literature review exploring disparities in breastfeeding in Native communities in preparation for the 2023 Lewis Ferguson CDC showcase. 
 - Created a digital story on the history of nursing and its importance in Native communities to educate peer interns.  
 - Trained in cultural competencies, SMART evaluation, OCME mentee training.  
 
@@ -85,6 +80,37 @@ Interned with the Southern Plains Tribal Health Board under the THESIS program.
 
 ------------------------------------------------------------
 
+**RISE, Mailman School of Public Health**- *Mentor*
+
+*Sep 2024–Present*
+
+- Provided academic and social guidance for a group of new Mailman students. 
+- Met on a monthly basis, in addition to program events, and fostered a safe and welcoming environment for mentees to create relationships with each other. 
+
+
+**Peer Mentorship Program**, New York NY- *Mentor*                                      
+
+*Mar 2024–Present*
+
+Columbia Undergraduate Public Health Club 
+
+- Volunteered to mentor an undergraduate in Columbia University interested in attending CUMC. Held one-on-one meetings with an assigned mentee to provide advice and answer questions relating to admissions, classwork, departments, and more. 
+
+
+**Sexual & Reproductive Health Action Group (SHAG)** -*Research/Education Committee Member*    
+
+Committees towards advocating for Comprehensive Sex Education in New York State. 
+
+*Feb 2024–Present* 
+
+- Involved in creating updated information/research and presenting research to other members of the group. 
+
+
+**Habitat for Humanity**, UVA -*Volunteer*                                                                                            
+*Aug 2021–May 2023*
+
+- Volunteered for 60+ hours, participated in construction project, collaborated with a diverse team, and engaged in community outreach.  
+- Developed construction skills, teamwork abilities, and knowledge of affordable housing solutions. 
 
 
 ------------------------------------------------------------
@@ -92,6 +118,37 @@ Interned with the Southern Plains Tribal Health Board under the THESIS program.
 ### Projects
 
 ------------------------------------------------------------
+
+**Breastfeeding in Native Communities Literature Review**, Advisor: Gary Piercey, Ph.D      
+
+*Summer 2023*
+
+- Title: Bridging the Gap: Addressing Breastfeeding Rate Disparities Between Native and Non-Native Communities 
+- Utilized a comprehensive literature search on academic databases as well as an interview with Stephanne Rupnicki (U.S. Breastfeeding Committee Board of Directors Elected Director) to investigate breastfeeding rates in the Native American community. 
+- Explored disparities, contributing factors, long-term health outcomes and benefits, and suggested how promotion programs can be tailored to effectively communicate benefits to the native community 
+
+**Global Public Health Major Capstone Paper**, Advisor: Professor Paige Hornsby, Ph.D.                                
+*Spring 2023*
+
+- Title: A systematic literature review on the effectiveness of different prevention methods on the onset of postpartum depression in mothers 
+- Examined several sources and papers that were published between 2013 and 2023 that evaluated 
+exercise/psychological prevention methods and reported PPD or depression symptoms as an outcome were investigated. 
+- Explored if exercise and psychological strategies are effective in preventing the development of PPD in women. 
+
+------------------------------------------------------------
+
+### SKills and Certifications
+
+------------------------------------------------------------
+
+- Basic Life Support (BLS): Certified through American Red Cross- *July 2022* 
+- IRB-HSR Researcher Basic Course- *March 2023*                                                  
+- Languages spoken: Fluent speaker with Nepali and Hindi. Elementary Spanish.  
+- Google suite, Windows OS: Proficient. 
+- Programming languages: Proficient with SAS and Tableau, familiar with R, GitHub, and STATA.
+
+
+
 
 
 

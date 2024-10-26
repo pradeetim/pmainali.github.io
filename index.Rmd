@@ -6,7 +6,7 @@ output:
     toc_float: true
 ---
 
-<img src="images/graduation headshot.jpg" style="width:20%">
+<img src="images/graduation headshot.jpg" style="display: block; margin-left: auto; margin-right: auto; width: 20%;">
 
 ------------------------------------------------------------
 
@@ -29,6 +29,24 @@ In my free time, I love to watch TV, listen to music, and paint.
 
 Currently I am watching Agatha All Along and Brooklyn 99. I really enjoy watching Bollywood movies and k-dramas as well. 
 I'm into a lot of genres such as pop, rap, indie, rock, some dance, and a little bit of metal occasionally... 
+
+#### Painting Gallery:  
+
+UVA:
+
+<img src="images/uva.jpg" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
+
+Iceberg scene from Avatar the Last Airbender:
+
+<img src="images/avatar.jpg" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
+
+Action shot my mom took of me:
+
+<img src="images/action.jpg" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
+
+Kurama from Naruto:
+
+<img src="images/naruto.jpg" style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
 
 ------------------------------------------------------------
 
