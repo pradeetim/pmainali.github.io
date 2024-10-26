@@ -5,19 +5,82 @@ date: "10/26/2024"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-```{r}
+```{r setup, message = FALSE, warning = FALSE}
 library(tidyverse)
-library(janitor)
+library(p8105.datasets)
+data("rest_inspec")
+
 library(stringr)
 library(forcats)
 library(viridis)
 library(plotly)
+library(dplyr)
 ```
+
+Clean/tidy data:
+
+```{r clean}
+rest_inspec_df = 
+  rest_inspec |>
+  janitor::clean_names() |>
+  mutate(borough = boro,
+         year = year(inspection_date)) |>
+  filter(borough != "Missing") |>
+  select(borough, cuisine_description, inspection_date, inspection_type, score, zipcode, grade, grade_date, year)
+```
+
+## Plotly Histogram
+
+```{r histogram}
+rest_hist =
+  rest_inspec_df |> 
+  filter(!is.na(grade)) |> 
+  count(grade, borough) |> 
+  mutate(grade = fct_reorder(grade, n),
+         text_label = str_c("Borough: ", borough, "\nGrade: ", grade, "\nCount: ", n))
+
+  plot_ly(data = rest_hist, 
+          x = ~grade, 
+          y = ~n, 
+          color = ~borough, 
+          type = "bar", 
+          colors = "viridis",
+          text = ~text_label,
+          textposition = "none") |>
+  layout(title = "Stacked Bar Chart of Grades by Borough",
+         barmode = "stack",
+         xaxis = list(title = "Grade"),
+         yaxis = list(title = "Count"))
+```
+
+
+## Plotly Line Graph
+
+```{r linegraph}
+rest_line =
+  rest_inspec_df |>
+  filter(year >= 2011 & year <= 2017,
+         !is.na(inspection_type)) |>
+  count(year, borough) |>
+  mutate(text_label = str_c("Year: ", year, "\nBorough: ", borough, "\nCount: ", n))
+
+  plot_ly(data = rest_line,
+          x = ~year, 
+          y = ~n, 
+          color = ~borough, 
+          type = "scatter",
+          text = ~text_label,
+          mode = "lines+markers") |>
+  layout(title = "Number of Inspections per Year (2000-2017) by Borough",
+         xaxis = list(title = "Year"),
+         yaxis = list(title = "Number of Inspections"))
+```
+
 
 
 

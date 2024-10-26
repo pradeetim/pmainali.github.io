@@ -34,6 +34,14 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
@@ -256,6 +264,9 @@ $(document).ready(function () {
   <a href="experience.html">Experience</a>
 </li>
 <li>
+  <a href="plotly.html">Plotly</a>
+</li>
+<li>
   <a href="mailto:&lt;pm3260@cumc.columbia.edu&gt;">
     <span class="fa fa-envelope fa-lg"></span>
      
@@ -283,43 +294,69 @@ $(document).ready(function () {
 </div>
 
 
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ─────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-## ✔ purrr     1.0.2     
-## ── Conflicts ───────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<pre class="r"><code>library(janitor)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;janitor&#39;
-## 
-## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     chisq.test, fisher.test</code></pre>
-<pre class="r"><code>library(stringr)
+<pre class="r"><code>library(tidyverse)
+library(p8105.datasets)
+data(&quot;rest_inspec&quot;)
+
+library(stringr)
 library(forcats)
-library(viridis)</code></pre>
-<pre><code>## Loading required package: viridisLite</code></pre>
-<pre class="r"><code>library(plotly)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;plotly&#39;
-## 
-## The following object is masked from &#39;package:ggplot2&#39;:
-## 
-##     last_plot
-## 
-## The following object is masked from &#39;package:stats&#39;:
-## 
-##     filter
-## 
-## The following object is masked from &#39;package:graphics&#39;:
-## 
-##     layout</code></pre>
+library(viridis)
+library(plotly)
+library(dplyr)</code></pre>
+<p>Clean/tidy data:</p>
+<pre class="r"><code>rest_inspec_df = 
+  rest_inspec |&gt;
+  janitor::clean_names() |&gt;
+  mutate(borough = boro,
+         year = year(inspection_date)) |&gt;
+  filter(borough != &quot;Missing&quot;) |&gt;
+  select(borough, cuisine_description, inspection_date, inspection_type, score, zipcode, grade, grade_date, year)</code></pre>
+<div id="plotly-histogram" class="section level2">
+<h2>Plotly Histogram</h2>
+<pre class="r"><code>rest_hist =
+  rest_inspec_df |&gt; 
+  filter(!is.na(grade)) |&gt; 
+  count(grade, borough) |&gt; 
+  mutate(grade = fct_reorder(grade, n),
+         text_label = str_c(&quot;Borough: &quot;, borough, &quot;\nGrade: &quot;, grade, &quot;\nCount: &quot;, n))
+
+  plot_ly(data = rest_hist, 
+          x = ~grade, 
+          y = ~n, 
+          color = ~borough, 
+          type = &quot;bar&quot;, 
+          colors = &quot;viridis&quot;,
+          text = ~text_label,
+          textposition = &quot;none&quot;) |&gt;
+  layout(title = &quot;Stacked Bar Chart of Grades by Borough&quot;,
+         barmode = &quot;stack&quot;,
+         xaxis = list(title = &quot;Grade&quot;),
+         yaxis = list(title = &quot;Count&quot;))</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-40544883fa846dc394c5" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-40544883fa846dc394c5">{"x":{"visdat":{"63d8640f4ba6":["function () ","plotlyVisDat"]},"cur_data":"63d8640f4ba6","attrs":{"63d8640f4ba6":{"x":{},"y":{},"text":{},"textposition":"none","color":{},"colors":"viridis","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Stacked Bar Chart of Grades by Borough","barmode":"stack","xaxis":{"domain":[0,1],"automargin":true,"title":"Grade","type":"category","categoryorder":"array","categoryarray":["P","Not Yet Graded","Z","C","B","A"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Count"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["A","B","C","Not Yet Graded","P","Z"],"y":[13688,2801,701,200,163,351],"text":["Borough: BRONX<br />Grade: A<br />Count: 13688","Borough: BRONX<br />Grade: B<br />Count: 2801","Borough: BRONX<br />Grade: C<br />Count: 701","Borough: BRONX<br />Grade: Not Yet Graded<br />Count: 200","Borough: BRONX<br />Grade: P<br />Count: 163","Borough: BRONX<br />Grade: Z<br />Count: 351"],"textposition":["none","none","none","none","none","none"],"type":"bar","name":"BRONX","marker":{"color":"rgba(68,1,84,1)","line":{"color":"rgba(68,1,84,1)"}},"textfont":{"color":"rgba(68,1,84,1)"},"error_y":{"color":"rgba(68,1,84,1)"},"error_x":{"color":"rgba(68,1,84,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["A","B","C","Not Yet Graded","P","Z"],"y":[37449,6651,1684,702,416,977],"text":["Borough: BROOKLYN<br />Grade: A<br />Count: 37449","Borough: BROOKLYN<br />Grade: B<br />Count: 6651","Borough: BROOKLYN<br />Grade: C<br />Count: 1684","Borough: BROOKLYN<br />Grade: Not Yet Graded<br />Count: 702","Borough: BROOKLYN<br />Grade: P<br />Count: 416","Borough: BROOKLYN<br />Grade: Z<br />Count: 977"],"textposition":["none","none","none","none","none","none"],"type":"bar","name":"BROOKLYN","marker":{"color":"rgba(59,82,139,1)","line":{"color":"rgba(59,82,139,1)"}},"textfont":{"color":"rgba(59,82,139,1)"},"error_y":{"color":"rgba(59,82,139,1)"},"error_x":{"color":"rgba(59,82,139,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["A","B","C","Not Yet Graded","P","Z"],"y":[61608,10532,2689,765,508,1237],"text":["Borough: MANHATTAN<br />Grade: A<br />Count: 61608","Borough: MANHATTAN<br />Grade: B<br />Count: 10532","Borough: MANHATTAN<br />Grade: C<br />Count: 2689","Borough: MANHATTAN<br />Grade: Not Yet Graded<br />Count: 765","Borough: MANHATTAN<br />Grade: P<br />Count: 508","Borough: MANHATTAN<br />Grade: Z<br />Count: 1237"],"textposition":["none","none","none","none","none","none"],"type":"bar","name":"MANHATTAN","marker":{"color":"rgba(33,144,141,1)","line":{"color":"rgba(33,144,141,1)"}},"textfont":{"color":"rgba(33,144,141,1)"},"error_y":{"color":"rgba(33,144,141,1)"},"error_x":{"color":"rgba(33,144,141,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["A","B","C","Not Yet Graded","P","Z"],"y":[35952,6492,1593,604,331,913],"text":["Borough: QUEENS<br />Grade: A<br />Count: 35952","Borough: QUEENS<br />Grade: B<br />Count: 6492","Borough: QUEENS<br />Grade: C<br />Count: 1593","Borough: QUEENS<br />Grade: Not Yet Graded<br />Count: 604","Borough: QUEENS<br />Grade: P<br />Count: 331","Borough: QUEENS<br />Grade: Z<br />Count: 913"],"textposition":["none","none","none","none","none","none"],"type":"bar","name":"QUEENS","marker":{"color":"rgba(93,200,99,1)","line":{"color":"rgba(93,200,99,1)"}},"textfont":{"color":"rgba(93,200,99,1)"},"error_y":{"color":"rgba(93,200,99,1)"},"error_x":{"color":"rgba(93,200,99,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["A","B","C","Not Yet Graded","P","Z"],"y":[5215,933,207,85,47,149],"text":["Borough: STATEN ISLAND<br />Grade: A<br />Count: 5215","Borough: STATEN ISLAND<br />Grade: B<br />Count: 933","Borough: STATEN ISLAND<br />Grade: C<br />Count: 207","Borough: STATEN ISLAND<br />Grade: Not Yet Graded<br />Count: 85","Borough: STATEN ISLAND<br />Grade: P<br />Count: 47","Borough: STATEN ISLAND<br />Grade: Z<br />Count: 149"],"textposition":["none","none","none","none","none","none"],"type":"bar","name":"STATEN ISLAND","marker":{"color":"rgba(253,231,37,1)","line":{"color":"rgba(253,231,37,1)"}},"textfont":{"color":"rgba(253,231,37,1)"},"error_y":{"color":"rgba(253,231,37,1)"},"error_x":{"color":"rgba(253,231,37,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="plotly-line-graph" class="section level2">
+<h2>Plotly Line Graph</h2>
+<pre class="r"><code>rest_line =
+  rest_inspec_df |&gt;
+  filter(year &gt;= 2011 &amp; year &lt;= 2017,
+         !is.na(inspection_type)) |&gt;
+  count(year, borough) |&gt;
+  mutate(text_label = str_c(&quot;Year: &quot;, year, &quot;\nBorough: &quot;, borough, &quot;\nCount: &quot;, n))
+
+  plot_ly(data = rest_line,
+          x = ~year, 
+          y = ~n, 
+          color = ~borough, 
+          type = &quot;scatter&quot;,
+          text = ~text_label,
+          mode = &quot;lines+markers&quot;) |&gt;
+  layout(title = &quot;Number of Inspections per Year (2000-2017) by Borough&quot;,
+         xaxis = list(title = &quot;Year&quot;),
+         yaxis = list(title = &quot;Number of Inspections&quot;))</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-72d53ab7b3b5237e1467" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-72d53ab7b3b5237e1467">{"x":{"visdat":{"63d82bc72bfc":["function () ","plotlyVisDat"]},"cur_data":"63d82bc72bfc","attrs":{"63d82bc72bfc":{"x":{},"y":{},"text":{},"mode":"lines+markers","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Number of Inspections per Year (2000-2017) by Borough","xaxis":{"domain":[0,1],"automargin":true,"title":"Year"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Inspections"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[2013,2014,2015,2016,2017],"y":[330,5421,10341,10319,8246],"text":["Year: 2013<br />Borough: BRONX<br />Count: 330","Year: 2014<br />Borough: BRONX<br />Count: 5421","Year: 2015<br />Borough: BRONX<br />Count: 10341","Year: 2016<br />Borough: BRONX<br />Count: 10319","Year: 2017<br />Borough: BRONX<br />Count: 8246"],"mode":"lines+markers","type":"scatter","name":"BRONX","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2013,2014,2015,2016,2017],"y":[819,16763,28287,28680,24967],"text":["Year: 2013<br />Borough: BROOKLYN<br />Count: 819","Year: 2014<br />Borough: BROOKLYN<br />Count: 16763","Year: 2015<br />Borough: BROOKLYN<br />Count: 28287","Year: 2016<br />Borough: BROOKLYN<br />Count: 28680","Year: 2017<br />Borough: BROOKLYN<br />Count: 24967"],"mode":"lines+markers","type":"scatter","name":"BROOKLYN","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"textfont":{"color":"rgba(252,141,98,1)"},"error_y":{"color":"rgba(252,141,98,1)"},"error_x":{"color":"rgba(252,141,98,1)"},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2013,2014,2015,2016,2017],"y":[1552,28461,44839,45316,37330],"text":["Year: 2013<br />Borough: MANHATTAN<br />Count: 1552","Year: 2014<br />Borough: MANHATTAN<br />Count: 28461","Year: 2015<br />Borough: MANHATTAN<br />Count: 44839","Year: 2016<br />Borough: MANHATTAN<br />Count: 45316","Year: 2017<br />Borough: MANHATTAN<br />Count: 37330"],"mode":"lines+markers","type":"scatter","name":"MANHATTAN","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2011,2012,2013,2014,2015,2016,2017],"y":[1,3,876,16651,27759,25316,20849],"text":["Year: 2011<br />Borough: QUEENS<br />Count: 1","Year: 2012<br />Borough: QUEENS<br />Count: 3","Year: 2013<br />Borough: QUEENS<br />Count: 876","Year: 2014<br />Borough: QUEENS<br />Count: 16651","Year: 2015<br />Borough: QUEENS<br />Count: 27759","Year: 2016<br />Borough: QUEENS<br />Count: 25316","Year: 2017<br />Borough: QUEENS<br />Count: 20849"],"mode":"lines+markers","type":"scatter","name":"QUEENS","marker":{"color":"rgba(231,138,195,1)","line":{"color":"rgba(231,138,195,1)"}},"textfont":{"color":"rgba(231,138,195,1)"},"error_y":{"color":"rgba(231,138,195,1)"},"error_x":{"color":"rgba(231,138,195,1)"},"line":{"color":"rgba(231,138,195,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2013,2014,2015,2016,2017],"y":[100,2443,3405,3780,3602],"text":["Year: 2013<br />Borough: STATEN ISLAND<br />Count: 100","Year: 2014<br />Borough: STATEN ISLAND<br />Count: 2443","Year: 2015<br />Borough: STATEN ISLAND<br />Count: 3405","Year: 2016<br />Borough: STATEN ISLAND<br />Count: 3780","Year: 2017<br />Borough: STATEN ISLAND<br />Count: 3602"],"mode":"lines+markers","type":"scatter","name":"STATEN ISLAND","marker":{"color":"rgba(166,216,84,1)","line":{"color":"rgba(166,216,84,1)"}},"textfont":{"color":"rgba(166,216,84,1)"},"error_y":{"color":"rgba(166,216,84,1)"},"error_x":{"color":"rgba(166,216,84,1)"},"line":{"color":"rgba(166,216,84,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
 
 
 
