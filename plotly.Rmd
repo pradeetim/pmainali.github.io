@@ -57,13 +57,12 @@ rest_hist =
          yaxis = list(title = "Count"))
 ```
 
-
 ## Plotly Line Graph
 
 ```{r linegraph}
 rest_line =
   rest_inspec_df |>
-  filter(year >= 2011 & year <= 2017,
+  filter(year >= 2013 & year <= 2017,
          !is.na(inspection_type)) |>
   count(year, borough) |>
   mutate(text_label = str_c("Year: ", year, "\nBorough: ", borough, "\nCount: ", n))
@@ -80,6 +79,25 @@ rest_line =
          yaxis = list(title = "Number of Inspections"))
 ```
 
+## Plotly Boxplot
+
+```{r boxplot, warning = FALSE}
+rest_box = 
+  rest_inspec_df |>
+  filter(year >= 2013 & year <= 2017,
+         !is.na(score)) |>
+  select(borough, score, year)
+
+  plot_ly(data = rest_box, 
+        x = ~borough, 
+        y = ~score,
+        color = ~as.factor(year),
+        type = "box") |>
+  layout(title = "Distribution of Scores per Borough, by Years",
+         xaxis = list(title = "Borough"),
+         yaxis = list(title = "Score"),
+         boxmode = "group")
+```
 
 
 
