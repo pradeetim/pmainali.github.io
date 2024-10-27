@@ -29,7 +29,8 @@ rest_inspec_df =
   janitor::clean_names() |>
   mutate(borough = boro,
          year = year(inspection_date)) |>
-  filter(borough != "Missing") |>
+  filter(borough != "Missing",
+         grade != "Not Yet Graded") |>
   select(borough, cuisine_description, inspection_date, inspection_type, score, zipcode, grade, grade_date, year)
 ```
 
@@ -74,9 +75,9 @@ rest_line =
           type = "scatter",
           text = ~text_label,
           mode = "lines+markers") |>
-  layout(title = "Number of Inspections per Year (2000-2017) by Borough",
+  layout(title = "Number of Inspections per Year by Borough",
          xaxis = list(title = "Year"),
-         yaxis = list(title = "Number of Inspections"))
+         yaxis = list(title = "Inspections (n)"))
 ```
 
 ## Plotly Boxplot

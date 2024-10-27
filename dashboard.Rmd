@@ -1,0 +1,106 @@
+---
+title: "Restaurant Inspection Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+```{r}
+library(tidyverse)
+library(p8105.datasets)
+data("rest_inspec")
+
+library(stringr)
+library(forcats)
+library(viridis)
+library(plotly)
+library(dplyr)
+```
+
+```{r}
+rest_inspec_df = 
+  rest_inspec |>
+  janitor::clean_names() |>
+  mutate(borough = boro,
+         year = year(inspection_date)) |>
+  filter(borough != "Missing",
+         grade != "Not Yet Graded") |>
+  select(borough, cuisine_description, inspection_date, inspection_type, score, zipcode, grade, grade_date, year)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Box Plot
+
+```{r}
+rest_box = 
+  rest_inspec_df |>
+  filter(year >= 2013 & year <= 2017,
+         !is.na(score)) |>
+  select(borough, score, year)
+
+  plot_ly(data = rest_box, 
+        x = ~borough, 
+        y = ~score,
+        color = ~as.factor(year),
+        type = "box") |>
+  layout(title = "Distribution of Scores per Borough, by Year",
+         xaxis = list(title = "Borough"),
+         yaxis = list(title = "Score"),
+         boxmode = "group")
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Line Graph
+
+```{r}
+rest_line =
+  rest_inspec_df |>
+  filter(year >= 2013 & year <= 2017,
+         !is.na(inspection_type)) |>
+  count(year, borough) |>
+  mutate(text_label = str_c("Year: ", year, "\nBorough: ", borough, "\nCount: ", n))
+
+  plot_ly(data = rest_line,
+          x = ~year, 
+          y = ~n, 
+          color = ~borough, 
+          type = "scatter",
+          text = ~text_label,
+          mode = "lines+markers") |>
+  layout(title = "Number of Inspections per Year by Borough",
+         xaxis = list(title = "Year"),
+         yaxis = list(title = "Inspections (n)"))
+```
+
+### Bar Graph
+
+```{r}
+rest_hist =
+  rest_inspec_df |> 
+  filter(!is.na(grade)) |> 
+  count(grade, borough) |> 
+  mutate(grade = fct_reorder(grade, n),
+         text_label = str_c("Borough: ", borough, "\nGrade: ", grade, "\nCount: ", n))
+
+  plot_ly(data = rest_hist, 
+          x = ~grade, 
+          y = ~n, 
+          color = ~borough, 
+          type = "bar", 
+          colors = "viridis",
+          text = ~text_label,
+          textposition = "none") |>
+  layout(title = "Stacked Bar Chart of Grades by Borough",
+         barmode = "stack",
+         xaxis = list(title = "Grade"),
+         yaxis = list(title = "Count"))
+```
